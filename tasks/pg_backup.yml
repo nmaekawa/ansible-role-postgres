@@ -1,0 +1,33 @@
+---
+    # aws cli installed and permissions for s3
+    # plus templates/cronjob_backup.sh.j2 uses script from role:
+    # nmaekawa.cloudformation/.../cp_file_to_s3.sh
+
+    - name: backup | ensure backup,bin dir exists
+      file:
+        path: "{{ db_backup_dir }}"
+        owner: postgres
+        group: postgres
+        mode: 0760
+        state: directory
+      with_items: ["{ db_backup_dir}", "{ db_bin_dir}"]
+
+    - name: backup | drop script to perform data backups
+      become_user: postgres
+      template:
+        src: ../templates/cronjob_backup.sh.j2
+        dest: "{{ db_bin_dir }}/pg_datadump.sh"
+        owner: postgres
+        group: postgres
+        mode: 0754
+
+    - name: backup | cronjob for data backup
+      cron:
+        name: "daily postgres data dump"
+        user: postgres
+        special_time: daily
+        state: present
+        job: >
+          {{ db_bin_dir }}/pg_datadump.sh --outdir "{{ db_backup_dir }}"
+          --days {{ db_backup_local_retention_in_days }} 2>&1 | logger -t "[db backup]"
+

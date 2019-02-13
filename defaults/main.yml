@@ -1,0 +1,27 @@
+---
+
+postgres_version: 11
+
+# e.g if you want data to be in a different mount,
+# rootdir should be the mountpoint
+rootdir: "/var/lib"
+db_rootdir: "{{ rootdir }}/postgresql"
+
+# change to custom dir you want to move data to
+db_data_dir: "{{ db_rootdir }}/{{ postgres_version }}/main"
+
+# daily backups of all databases
+db_backup_dir: "{{ db_rootdir }}/backup"
+
+# note that default for log is /var/lib/postgres/log
+db_log_dir: "{{ db_rootdir }}/log"
+
+# scripts for backup and log cleaning goes here
+db_bin_dir: "{{ db_rootdir }}/bin"
+
+# how many days to keep data backup (backups of all database will be done daily)
+db_backup_local_retention_in_days: 7
+
+# how many days to keep logs
+db_log_retention_in_days: 7
+
