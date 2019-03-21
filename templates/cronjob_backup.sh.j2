@@ -37,7 +37,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-if [ -z $BACKUP_DIR ] || ![[ $LOCAL_RETENTION_IN_DAYS =~ "^[0-9]+$" ]]
+if [ -z $BACKUP_DIR ] || ![[ $LOCAL_RETENTION_IN_DAYS =~ ^[0-9]+$ ]]
 then
     usage
     exit 1
@@ -70,14 +70,14 @@ echo "$(date +"%F %T") remove old backups:"
 find ${BACKUP_DIR} \
     -type f \
     -name "*.pgdump" \
-    -mtime +${LOCAL_RETENTION_DAYS} \
+    -mtime +${LOCAL_RETENTION_IN_DAYS} \
     -print
 
 # delete local backups older than LOCAL_RETENTION_DAYS days
 find ${BACKUP_DIR} \
     -type f \
     -name "*.pgdump" \
-    -mtime +${LOCAL_RETENTION_DAYS} \
+    -mtime +${LOCAL_RETENTION_IN_DAYS} \
     -delete
 
 echo "$(date +"%F %T") pg_dump DONE"
