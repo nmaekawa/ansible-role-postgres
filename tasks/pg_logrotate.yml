@@ -20,3 +20,9 @@
         job: "{{ db_bin_dir }}/cleanup_log.sh 2>&1 | logger -t '[log cleanup]'"
 
 
+      # ubuntu usually has weekly logrotate for postgres
+    - name: logrotate | if logrotate.d job already configure, remove it
+      file:
+        path: '/etc/logrotate.d/postgresql-common'
+        state: absent
+
