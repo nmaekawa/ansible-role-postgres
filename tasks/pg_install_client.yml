@@ -1,0 +1,28 @@
+---
+
+    - name: install | import postgres signing key
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+    - name: install | add source for postgres to apt repository
+      apt_repository:
+          repo: 'deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main'
+          update_cache: yes
+          state: present
+
+    - name: install | update pkg list
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: install | install postgres-client
+      apt:
+        name:
+          - postgresql-client-{{ postgres_version }}
+          - python-psycopg2
+        state: present
+
+
+
+
