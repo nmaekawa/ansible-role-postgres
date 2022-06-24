@@ -13,7 +13,6 @@
       with_items: ["{ db_backup_dir}", "{ db_bin_dir}"]
 
     - name: backup | drop script to perform data backups
-      become_user: postgres
       template:
         src: ../templates/cronjob_backup.sh.j2
         dest: "{{ db_bin_dir }}/pg_datadump.sh"

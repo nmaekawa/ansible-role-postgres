@@ -1,6 +1,7 @@
 ---
 
     - name: postgres acct | create database service user
+      become: yes
       become_user: postgres
       postgresql_user:
         name: "{{ service_db_user }}"
@@ -8,6 +9,7 @@
         role_attr_flags: CREATEDB
 
     - name: postgres acct | create service database
+      become: yes
       become_user: postgres
       postgresql_db:
         name: "{{ service_db_name }}"
