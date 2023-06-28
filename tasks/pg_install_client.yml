@@ -20,7 +20,7 @@
       apt:
         name:
           - postgresql-client-{{ postgres_version }}
-          - python-psycopg2
+          - python3-psycopg2
         state: present
 
 
