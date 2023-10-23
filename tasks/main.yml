@@ -1,10 +1,10 @@
 ---
-    - include: pg_install.yml
+    - include_tasks: pg_install.yml
 
-    - include: pg_move_data_dir.yml
+    - include_tasks: pg_move_data_dir.yml
       when: 'not "/var/lib/postgresql/" in db_data_dir'
 
-    - include: pg_config.yml
+    - include_tasks: pg_config.yml
 
-    - include: pg_backup.yml
+    - include_tasks: pg_backup.yml
 
